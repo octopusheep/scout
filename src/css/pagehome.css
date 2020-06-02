@@ -1,0 +1,12 @@
+  .logo {
+    height: 32px;
+    margin: 16px;
+    margin-left: 24px;
+    text-align: left;
+    color: burlywood;
+    font-size: large;
+  }
+  
+  .site-layout .site-layout-background {
+    background: #fff;
+  }
