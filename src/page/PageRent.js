@@ -4,7 +4,7 @@ import { Layout, Breadcrumb} from 'antd';
 import PageRentTable from '../component/PageRentTable';
 import PageRentModalForm from '../component/PageRentModalForm';
 
-axios.defaults.baseURL = 'http://localhost:3001';
+axios.defaults.baseURL = 'http://localhost:3003';
 axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
 axios.defaults.withCredentials = false;
 

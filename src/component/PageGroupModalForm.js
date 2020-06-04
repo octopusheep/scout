@@ -3,7 +3,7 @@ import { Button, Modal, Form, Input } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 import axios from 'axios';
 
-axios.defaults.baseURL = 'http://localhost:3001';
+axios.defaults.baseURL = 'http://localhost:3003';
 axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
 axios.defaults.withCredentials = false;
 
@@ -77,7 +77,7 @@ const PageGroupModalForm = ({cb}) => {
       });
 
   
-      cb && cb();
+      setTimeout(cb(),200)
   };
 
   return (
