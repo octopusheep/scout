@@ -1,80 +1,51 @@
 import React from 'react';
 import { List, Card, Tag, Space } from 'antd';
 
-var data = [
-    {
-        title: '192.168.130',
-        machineList: [
-            { ip: '192.168.130.1', enable: false, usage: '部署clever' },
-            { ip: '192.168.130.2', enable: false, usage: '部署clever' },
-            { ip: '192.168.130.3', enable: false, usage: '部署clever' },
-            { ip: '192.168.130.4', enable: false, usage: '部署clever' },
-            { ip: '192.168.130.5', enable: false, usage: '部署clever' },
-            { ip: '192.168.130.6', enable: false, usage: '部署clever' },
-            { ip: '192.168.130.7', enable: false, usage: '部署clever' },
-        ]
-    },
-    {
-        title: '192.168.131',
-        machineList: [
-            { ip: '192.168.131.1', enable: false, usage: '部署Underlay集群' },
-            { ip: '192.168.131.8', enable: true, usage: '' },
-            { ip: '192.168.131.9', enable: true, usage: '' },
-            { ip: '192.168.131.10', enable: true, usage: '' },
-            { ip: '192.168.131.11', enable: true, usage: '' },
-            { ip: '192.168.131.14', enable: false, usage: '部署ES' },
-            { ip: '192.168.131.15', enable: false, usage: '部署ES' },
-        ]
-    }, {
-        title: '192.168.130',
-        machineList: [
-            { ip: '192.168.130.1', enable: false, usage: '部署clever' },
-            { ip: '192.168.130.2', enable: false, usage: '部署clever' },
-            { ip: '192.168.130.3', enable: false, usage: '部署clever' },
-            { ip: '192.168.130.4', enable: false, usage: '部署clever' },
-            { ip: '192.168.130.5', enable: false, usage: '部署clever' },
-            { ip: '192.168.130.6', enable: false, usage: '部署clever' },
-            { ip: '192.168.130.7', enable: false, usage: '部署clever' },
-        ]
-    },
-    {
-        title: '192.168.131',
-        machineList: [
-            { ip: '192.168.131.1', enable: false, usage: '部署Underlay集群' },
-            { ip: '192.168.131.8', enable: true, usage: '' },
-            { ip: '192.168.131.9', enable: true, usage: '' },
-            { ip: '192.168.131.10', enable: true, usage: '' },
-            { ip: '192.168.131.11', enable: true, usage: '' },
-            { ip: '192.168.131.14', enable: false, usage: '部署ES' },
-            { ip: '192.168.131.15', enable: false, usage: '部署ES' },
-        ]
-    }, {
-        title: '192.168.130',
-        machineList: [
-            { ip: '192.168.130.1', enable: false, usage: '部署clever' },
-            { ip: '192.168.130.2', enable: false, usage: '部署clever' },
-            { ip: '192.168.130.3', enable: false, usage: '部署clever' },
-            { ip: '192.168.130.4', enable: false, usage: '部署clever' },
-            { ip: '192.168.130.5', enable: false, usage: '部署clever' },
-            { ip: '192.168.130.6', enable: false, usage: '部署clever' },
-            { ip: '192.168.130.7', enable: false, usage: '部署clever' },
-        ]
-    },
-    {
-        title: '192.168.131',
-        machineList: [
-            { ip: '192.168.131.1', enable: false, usage: '部署Underlay集群' },
-            { ip: '192.168.131.8', enable: true, usage: '' },
-            { ip: '192.168.131.9', enable: true, usage: '' },
-            { ip: '192.168.131.10', enable: true, usage: '' },
-            { ip: '192.168.131.11', enable: true, usage: '' },
-            { ip: '192.168.131.14', enable: false, usage: '部署ES' },
-            { ip: '192.168.131.15', enable: false, usage: '部署ES' },
-        ]
-    },
-];
+import axios from 'axios';
+
+axios.defaults.baseURL = 'http://localhost:3001';
+axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
+axios.defaults.withCredentials = false;
+
+var data;
 class PageOverviewList extends React.Component {
 
+    constructor(props) {
+        super(props);
+
+
+        axios.get('/overview')
+            .then(function (response) {
+                data = response.data;
+                console.log('data:' + data);
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+
+        this.state = {
+            dataSource: data
+        }
+
+
+    }
+    componentDidMount() {
+        this.timerID = setTimeout(
+            () => this.tick(),
+            500
+        );
+    }
+
+    componentWillUnmount() {
+    }
+
+    tick() {
+        console.log('tick()');
+        this.setState({
+            dataSource: data
+        })
+        this.render();
+    }
 
     render() {
         return (

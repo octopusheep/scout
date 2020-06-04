@@ -56,7 +56,9 @@ const CollectionCreateForm = ({ visible, onCreate, onCancel }) => {
   );
 };
 
-const PageGroupModalForm = () => {
+const PageGroupModalForm = ({cb}) => {
+  console.log('cb():'+cb);
+
   const [visible, setVisible] = useState(false);
 
   const onCreateGroup = values => {
@@ -74,11 +76,8 @@ const PageGroupModalForm = () => {
         console.log(error);
       });
 
-    this.setState({
-      visible: false,
-    });
-
-    window.location.reload()
+  
+      cb && cb();
   };
 
   return (

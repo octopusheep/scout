@@ -60,7 +60,6 @@ class PageGroupTable extends React.Component {
         axios.get('/group')
             .then(function (response) {
                 data = response.data;
-                console.log('data:' + data);
             })
             .catch(function (error) {
                 console.log(error);
@@ -90,7 +89,7 @@ class PageGroupTable extends React.Component {
     }
 
     tick() {
-        console.log('tick()');
+        console.log('PageGroupTable的tick()');
         this.setState({
             dataSource: data
         })

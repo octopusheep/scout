@@ -9,24 +9,18 @@ axios.defaults.withCredentials = false;
 
 const { Option } = Select;
 
-const children=[];
-
-function getGroup(){
-
-  axios.get('/group')
-            .then(function (response) {
-                children = response.data;
-                console.log('getGroup():' + children);
-            })
-            .catch(function (error) {
-                console.log(error);
-            });
-
-}
 
 
-const CollectionCreateForm = ({ visible, onCreate, onCancel }) => {
+const CollectionCreateForm = ({ visible, onCreate, onCancel, grouplist }) => {
   const [form] = Form.useForm();
+
+  console.log('grouplist:' + grouplist);
+  const children = [];
+  for (let i = 0; i < grouplist.length; i++) {
+    children.push(<Option key={grouplist[i]}>{grouplist[i]}</Option>);
+  }
+  console.log('children:' + children)
+
   return (
     <Modal
       visible={visible}
@@ -55,7 +49,7 @@ const CollectionCreateForm = ({ visible, onCreate, onCancel }) => {
         }}
       >
         <Form.Item
-          name="groupname"
+          name="nodeip"
           label="节点IP"
           rules={[
             {
@@ -67,9 +61,9 @@ const CollectionCreateForm = ({ visible, onCreate, onCancel }) => {
           <Input />
         </Form.Item>
         <Form.Item
-          name="type"
+          name="nodegroup"
           label="节点组"
-          rules={[{ required: true, message: 'Please choose the type' }]}
+          rules={[{ required: true, message: '请选择节点组' }]}
         >
           <Select placeholder="请选择节点组">
             {children}
@@ -80,16 +74,16 @@ const CollectionCreateForm = ({ visible, onCreate, onCancel }) => {
   );
 };
 
-const PageNodeModalForm = () => {
+const PageNodeModalForm = ({raw}) => {
   const [visible, setVisible] = useState(false);
+  console.log('raw: ', raw);
 
-  const onCreateGroup = values => {
+  const onCreateNode = values => {
     console.log('创建节点信息: ', values);
-    setVisible(false);
 
-    axios.post('/add_group', {
-      groupname: values.groupname,
-      groupnote: values.description
+    axios.post('/add_node', {
+      nodeip: values.nodeip,
+      nodegroup: values.nodegroup
     })
       .then(function (response) {
         console.log(response.data);
@@ -97,12 +91,18 @@ const PageNodeModalForm = () => {
       .catch(function (error) {
         console.log(error);
       });
+    setVisible(false);
 
     this.setState({
       visible: false,
+
     });
 
+    // cb && cb();
+
   };
+
+
 
   return (
     <div>
@@ -116,10 +116,11 @@ const PageNodeModalForm = () => {
       </Button>
       <CollectionCreateForm
         visible={visible}
-        onCreate={onCreateGroup}
+        onCreate={onCreateNode}
         onCancel={() => {
           setVisible(false);
         }}
+        grouplist={raw}
       />
     </div>
   );

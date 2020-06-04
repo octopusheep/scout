@@ -1,14 +1,49 @@
 import React from 'react';
 import { Table, Popconfirm } from 'antd';
+import axios from 'axios';
 
-class PageNodeTable extends React.Component {
+axios.defaults.baseURL = 'http://localhost:3001';
+axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
+axios.defaults.withCredentials = false;
+
+var data;
+
+function deleteRent(param) {
+    console.log('deleteRent().param:' + param);
+
+    axios.post('/delete_rent', {
+        rentpurpose: param
+    })
+        .then(function (response) {
+            console.log(response.data);
+        })
+        .catch(function (error) {
+            console.log(error);
+        });
+
+}
+function transform(rawdata) {
+    var final = [];
+    for (let i = 0; i < rawdata.length; i++) {
+        final[i] = {};
+        final[i].rentpurpose = rawdata[i].rentpurpose;
+        final[i].renter = rawdata[i].renter;
+        final[i].renttime = rawdata[i].renttime;
+        final[i].rentlist = rawdata[i].rentlist;
+        final[i].rentcount = rawdata[i].rentlist.length;
+    }
+    console.log('transform():' + final);
+    return final;
+}
+
+class PageRentTable extends React.Component {
     constructor(props) {
         super(props);
         this.columns = [
             {
                 title: '使用目的',
-                dataIndex: 'status',
-                key: 'status',
+                dataIndex: 'rentpurpose',
+                key: 'rentpurpose',
                 render: text => <a>{text}</a>,
             },
             {
@@ -18,51 +53,70 @@ class PageNodeTable extends React.Component {
             },
             {
                 title: '借出时间',
-                dataIndex: 'time',
-                key: 'time',
+                dataIndex: 'renttime',
+                key: 'renttime',
             },
             {
                 title: '出借节点个数',
-                dataIndex: 'count',
-                key: 'count',
+                dataIndex: 'rentcount',
+                key: 'rentcount',
             },
             {
                 title: '操作',
                 dataIndex: 'action',
                 render: (text, record) =>
                     this.state.dataSource.length >= 1 ? (
-                        <Popconfirm title="确认删除" >
+                        <Popconfirm title="确认删除"
+                        onConfirm={() => this.handleDelete(record.rentpurpose)} >
                             <a>Delete</a>
                         </Popconfirm>
                     ) : null,
             },
         ];
 
+        this.rawData = [];
+
+        axios.get('/rent')
+            .then(function (response) {
+                data = transform(response.data);
+                console.log('rentdata:' + data);
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+
         this.state = {
-            dataSource: [{
-                status: '部署CPS 2.8.5环境',
-                renter: '许照康',
-                time: '2020年6月6日',
-                count: '13'
-
-            },{
-                status: '部署CPS 2.8.6环境',
-                renter: '许照康',
-                time: '2020年6月6日',
-                count: '13'
-
-            }, {
-                status: '部署CPS 2.8.7环境',
-                renter: '许照康',
-                time: '2020年6月6日',
-                count: '13'
-
-            }, ]
+            dataSource: data
         }
 
 
     }
 
+    handleDelete = rentpurpose => {
+        const dataSource = [...this.state.dataSource];
+        this.setState({ dataSource: dataSource.filter(item => item.rentpurpose !== rentpurpose) });
+        deleteRent(rentpurpose);
+    };
+
+    componentDidMount() {
+        this.timerID = setTimeout(
+            () => this.tick(),
+            500
+        );
+    }
+
+    componentWillUnmount() {
+    }
+
+
+
+    tick() {
+        console.log('tick()');
+        this.setState({
+            dataSource: data
+        })
+        this.render();
+    }
     render() {
         return (
             <Table columns={this.columns} dataSource={this.state.dataSource} />
@@ -71,4 +125,4 @@ class PageNodeTable extends React.Component {
 }
 
 
-export default PageNodeTable;
+export default PageRentTable;
