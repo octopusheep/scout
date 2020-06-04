@@ -5,7 +5,7 @@ import PageNodeTable from '../component/PageNodeTable';
 import PageNodeModalForm from '../component/PageNodeModalForm';
 const { Header, Content, Footer } = Layout;
 
-axios.defaults.baseURL = 'http://localhost:3003';
+axios.defaults.baseURL = 'http://192.168.131.29:3003';
 axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
 axios.defaults.withCredentials = false;
 
