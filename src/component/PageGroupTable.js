@@ -79,9 +79,9 @@ class PageGroupTable extends React.Component {
       };
 
     componentDidMount() {
-        this.timerID = setTimeout(
+        this.timerID = setInterval(
             () => this.tick(),
-            500
+            2000
         );
     }
 
@@ -93,6 +93,14 @@ class PageGroupTable extends React.Component {
         this.setState({
             dataSource: data
         })
+
+        axios.get('/group')
+            .then(function (response) {
+                data = response.data;
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
         this.render();
     }
 

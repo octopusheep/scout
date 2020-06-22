@@ -37,9 +37,9 @@ class PageNode extends React.Component {
     }
 
     componentDidMount() {
-        this.timerID = setTimeout(
+        this.timerID = setInterval(
             () => this.tick(),
-            200
+            2000
         );
     }
 
@@ -48,6 +48,7 @@ class PageNode extends React.Component {
 
     tick() {
         console.log('tick()');
+        request()
         this.render();
     }
     render() {

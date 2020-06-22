@@ -99,9 +99,9 @@ class PageRentTable extends React.Component {
     };
 
     componentDidMount() {
-        this.timerID = setTimeout(
+        this.timerID = setInterval(
             () => this.tick(),
-            500
+            2000
         );
     }
 
@@ -115,6 +115,15 @@ class PageRentTable extends React.Component {
         this.setState({
             dataSource: data
         })
+
+        axios.get('/rent')
+            .then(function (response) {
+                data = transform(response.data);
+                console.log('rentdata:' + data);
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
         this.render();
     }
     render() {

@@ -77,9 +77,9 @@ class PageNodeTable extends React.Component {
     };
 
     componentDidMount() {
-        this.timerID = setTimeout(
+        this.timerID = setInterval(
             () => this.tick(),
-            500
+            2000
         );
     }
 
@@ -91,6 +91,15 @@ class PageNodeTable extends React.Component {
         this.setState({
             dataSource: data
         })
+
+        axios.get('/node')
+        .then(function (response) {
+            data = response.data;
+            console.log('nodedata:' + data);
+        })
+        .catch(function (error) {
+            console.log(error);
+        });
         this.render();
     }
 
