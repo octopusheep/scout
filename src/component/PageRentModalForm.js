@@ -4,7 +4,7 @@ import { PlusOutlined } from '@ant-design/icons';
 
 import axios from 'axios';
 
-axios.defaults.baseURL = 'http://192.168.131.29:3003';
+axios.defaults.baseURL = 'http://localhost:3003';
 axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
 axios.defaults.withCredentials = false;
 
