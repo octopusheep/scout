@@ -20,14 +20,14 @@ class PageOverview extends React.Component {
                         <Breadcrumb.Item>资源总览</Breadcrumb.Item>
                     </Breadcrumb>
 
-                    <Carousel autoplay>
+                    {/* <Carousel autoplay>
                         <div class='div1'>
                             <img src={ad1} />
                         </div >
                         <div class='div2'>
                             <img src={ad2} />
                         </div>
-                    </Carousel>
+                    </Carousel> */}
                     <Space direction="vertical">
                         <PageOverviewList />
                     </Space>
