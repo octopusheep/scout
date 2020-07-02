@@ -1,5 +1,5 @@
 import React from 'react';
-import { Layout, Breadcrumb, Carousel, Space } from 'antd';
+import { Layout, Breadcrumb, Carousel, Space,Alert } from 'antd';
 import PageOverviewList from '../component/PageOverviewList';
 import ad1 from '../pic/ad1.jpg'
 import ad2 from '../pic/ad2.jpg'
@@ -19,7 +19,7 @@ class PageOverview extends React.Component {
                         <Breadcrumb.Item>节点管理</Breadcrumb.Item>
                         <Breadcrumb.Item>资源总览</Breadcrumb.Item>
                     </Breadcrumb>
-
+                    <Alert message="温馨提示:请您在CRUD操作后刷新界面，以避免部分显示问题哦" type="info" showIcon />
                     {/* <Carousel autoplay>
                         <div class='div1'>
                             <img src={ad1} />
